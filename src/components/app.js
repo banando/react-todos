@@ -24,11 +24,15 @@ export default class App extends React.Component {
     return (
         <div>
           <h1>React Todos App</h1>
-          <CreateTodo createTask={this.createTask.bind(this)} />
+          <CreateTodo
+            createTask={this.createTask.bind(this)}
+            todos={this.state.todos}
+          />
           <TodosList
             todos={this.state.todos}
             toggleTask={this.toggleTask.bind(this)}
             saveTask={this.saveTask.bind(this)}
+            deleteTask={this.deleteTask.bind(this)}
           />
         </div>
       );
@@ -52,6 +56,10 @@ export default class App extends React.Component {
     const foundTodo = _.find(this.state.todos, todo => todo.task === oldTask);
     foundTodo.task = newTask;
     foundTodo.isCompleted = false;
+    this.setState({ todos: this.state.todos });
+  }
+  deleteTask(taskToDelete) {
+    _.remove(this.state.todos, todo => todo.task === taskToDelete);
     this.setState({ todos: this.state.todos });
   }
 }
